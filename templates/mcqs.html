@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated MCQs</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .container {
+            text-align: left;
+            margin-top: 5%;
+        }
+        .card-body {
+            text-align: left;
+        }
+        .correct-answer{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="mt-4 text-center">Generated MCQs</h1>
+    <div id="mcqs-container" class="container">
+        {% for index, mcq in mcqs %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Q{{index}}:{{mcq[0]}}?</h5>
+                    <form>
+                        {% set options = ['A','B','C','D'] %}
+                        {% set num_choices = mcq[1]|length %}
+                        {% for choice_index in range(num_choices) %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="answer{{ index }}" id="choice{{ index }}{{ choice_index }}" value="{{ choice_index }}">
+                                <label class="form-check-label" for="choice{{index}} {{choice_index}}">
+                                    {{options[choice_index]}}: {{mcq[1][choice_index]}}
+                                </label>
+
+                            </div>
+                        {% endfor %}
+                    </form>
+                    <!-- display correct answer with a class -->
+                    <small class="text-muted correct-answer">Correct Answer: {{mcq[2]}}</small>
+                </div>
+            </div>
+        {% endfor %}
+        <!-- button to show results -->
+         <button id="show-results-btn" class="btn btn-primary">Show Results</button>
+    </div>
+
+
+    <script>
+        document.getElementById("show-results-btn").addEventListener('click',function(){
+            var correctanswer = document.getElementsByClassName("correct-answer");
+
+            var correctcount = 0;
+            for(var i=0;i<correctanswer.length;i++){
+                correctanswer[i].style.display = 'block'
+            }
+            this.style.display = 'none';
+        })
+
+    </script>
+
+
+</body>
+</html>
